@@ -1,0 +1,95 @@
+﻿@model ML.Registro
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class=row>
+        <div class="text-center">
+            <h2>Super Digito</h2>
+
+        </div>
+    </div>
+    <div style="float:right;">
+        @Html.ActionLink("Cerrar Sesion", "CerrarSesion", "Registro", htmlAttributes: new { @class = "btn btn-primary" })
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h5></h5>
+            <hr />
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-12">
+    @using (Html.BeginForm("GetAll", "Registro", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        
+
+        <div class="row">
+
+
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Numero)
+                    @Html.TextBoxFor(model => model.Numero, new { @class = "form-control",@placeholder = "Numero"})
+
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Resultado)
+                @Html.TextBoxFor(model => model.Resultado, new { @class = "form-control",@placeholder = "Resultado"})
+
+                </div>
+           
+
+            <div class="col" style="display:none">
+                @Html.LabelFor(model => model.Usuario.IdUsuario, new { @class = "visually-hidden" })
+
+                @Html.TextBoxFor(model => model.Usuario.IdUsuario, new { @class = "visually-hidden form-control" })
+            </div>
+            <div class="col" style="display:none">
+                @Html.LabelFor(model => model.Usuario.Username, new { @class = "visually-hidden" })
+
+                @Html.TextBoxFor(model => model.Usuario.Username, new { @class = "visually-hidden form-control" })
+            </div>
+        </div>
+        <br />
+        <div class="container">
+
+            <div class="col">
+                <input type="submit" value="Calcular" class="btn btn-info" />
+
+            </div>
+        </div>
+    }
+</div>
+<br />
+<br />
+<table class="table   table-hover table-bordered table-responsive">
+    <thead>
+        <tr class="table-secondary">
+        
+            <td style="display :none;">id</td>
+            <td>Numero</td>
+            <td>Resultado</td>
+            <td>Fecha y Hora</td>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ML.Registro registro in Model.Registros)
+        {
+            <tr>
+                <td style="display :none;">@registro.IdRegistro </td>
+                <td>@registro.Numero </td>
+                <td>@registro.Resultado</td>
+                <td>@registro.Fecha</td>      
+            </tr>
+        }
+
+    </tbody>
+  </table>
+
+<a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Registro", new { idUsuario = Model.Usuario.IdUsuario})" onclick="return confirm('Estas seguro que deseas eliminar los registros?');"><i class="bi bi-eraser-fill" style="color: mintcream"></i></a>
